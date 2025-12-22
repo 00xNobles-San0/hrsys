@@ -1,4 +1,4 @@
-I have organized your project specifications into a structured README.md file. I have also included a conceptual database schema and a technical architecture overview to make it ready for a development team.
+
 
 Markdown
 
