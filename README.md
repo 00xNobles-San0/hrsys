@@ -1,4 +1,4 @@
-# Comprehensive HR Management System (HRMS) - Call Center Edition
+# AmenDBS Call center ERP
 
 ## 1. Project Overview
 [cite_start]A highly dynamic HR management system tailored for call center operations, covering the full employee lifecycle from recruitment and training to performance auditing and payroll[cite: 1, 4].
