@@ -1,0 +1,165 @@
+# HR Management System for Call Centers
+
+## 1. Project Overview
+A dynamic HR management system designed for call centers, managing the full employee lifecycle—from recruitment and training to performance auditing and real-time payroll processing.
+
+---
+
+## 2. Organization Structure & Hierarchy
+
+The system enforces a strict reporting structure to maintain data integrity and accountability.
+
+### 2.1 Dynamic Departments
+- Ability to create and manage custom departments/accounts
+- Each department is assigned a responsible manager
+
+### 2.2 Chain of Command
+- **Agent / Training Agent** → Reports to **Team Leader**
+- **Team Leader** → Reports to **Manager**
+- **Manager** → Reports to **GM / Admin**
+
+### 2.3 Organizational Chart View
+- Visual tree representation of the company hierarchy
+- Used for administrative oversight and role validation
+
+---
+
+## 3. Detailed User Roles
+
+| Role | Responsibility | Key Permissions |
+|----|----|----|
+| CEO / Admin | System Governance | Full system access, global configuration |
+| GM | Operations Oversight | View-only access to all sites, accounts, and financial analytics |
+| HR | Personnel Administration | Employee lifecycle, payroll, recruitment |
+| Quality Agent (QA) | Performance Audit | Call monitoring, failed attribute tracking, PIPs |
+| Team Leader | Team Management | Performance tracking, shift approvals, coaching |
+| Agent | Employee | Personal dashboard, attendance, salary view |
+| Training Agent | Probationary Hire | Access to training materials during evaluation |
+
+---
+
+## 4. Training & Probation Module
+
+### 4.1 Flexible Duration
+- Configurable probation period from **1 to 6 months**
+- Defined per account or business requirement
+
+### 4.2 Graduation Workflow
+- **Pass (Accepted):**
+  - HR promotes user to **Agent**
+  - Agent receives **100% base salary**
+- **Fail (Rejected):**
+  - User is deactivated
+  - Receives **50% of the final month salary** as settlement
+
+---
+
+## 5. Attendance & Smart Notifications
+
+### 5.1 Real-Time Tracking
+- Automated login/logout monitoring
+- Supports **12 distinct agent statuses**
+
+### 5.2 Missing Login Alerts
+- If an agent fails to log in at shift start:
+  - System notifies **only the assigned Team Leader**
+  - Includes list of missing agents
+
+### 5.3 Security
+- “Forget Password” requests are sent to **HR**
+- Manual verification and password reset process
+
+---
+
+## 6. Performance & Quality Assurance System
+
+### 6.1 Dual Source KPIs
+- **Team Leader KPIs:**
+  - Productivity, behavior, adherence
+- **QA KPIs:**
+  - Call quality metrics
+  - Failed attributes tracking at:
+    - Agent
+    - Team
+    - Site
+    - Account levels
+
+### 6.2 Dynamic Rules
+- KPI weights configurable by **Admin / HR**
+- Automatic penalties for:
+  - Late arrival
+  - Absence
+
+### 6.3 Automated Notifications
+- Any deduction or warning letter:
+  - Triggers automatic email
+  - Sent to **Agent** and **HR**
+
+---
+
+## 7. Recruitment & Public Application
+
+### 7.1 Public Application Portal
+- Candidates submit:
+  - Personal information
+  - CVs
+- Data appears directly in the HR dashboard
+
+### 7.2 CV Analysis
+- Standardized HR evaluation form
+- Recruitment pipeline stages:
+  - Applied
+  - Interview
+  - Offer
+
+### 7.3 Blacklist Management
+- Permanent tracking of rejected candidates
+- Includes specific **“Never Hire”** reasons
+
+---
+
+## 8. Announcements Module
+
+- **Publishers:** Admin and HR only
+- **Audience:** All employees (Training Agent → GM)
+- **Categories:**
+  - Job openings
+  - Policy updates
+  - Company events
+  - Urgent alerts
+
+---
+
+## 9. Database Design (Key Entities)
+
+### 9.1 Users & Hierarchy
+
+| Table | Description |
+|----|----|
+| Users | id, name, email, role, status, reports_to_id, shift_id, base_salary |
+| Departments | id, dept_name, manager_id, site_location |
+
+### 9.2 Quality & Performance
+
+| Table | Description |
+|----|----|
+| QA_Evaluations | id, agent_id, qa_id, score, failed_attributes (JSON), is_acknowledged |
+| Warnings | id, user_id, level (Verbal / Final), reason, issued_at, notified_at |
+
+### 9.3 Attendance & Payroll
+
+| Table | Description |
+|----|----|
+| Attendance | id, user_id, clock_in, clock_out, status_history, is_late |
+| Deductions | id, user_id, type (Late / Absence), amount, notified_at, manual_override_by |
+
+---
+
+## 10. Technical Specifications
+
+- **Frontend:** React + TypeScript with Material UI
+- **Backend:** Node.js with Socket.io for live notifications
+- **Database:** PostgreSQL (relational integrity and history tracking)
+- **File Storage:** Local storage or S3
+  - CV uploads
+  - PDF payslip generation
